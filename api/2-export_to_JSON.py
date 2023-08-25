@@ -1,25 +1,26 @@
 #!/usr/bin/python3
 """extend the script to export data in the JSON format"""
 
+import json
+from json import dump
 import requests
 from requests import get
 from sys import argv
-from json import dump
 
 
 if __name__ == '__main__':
-    source = "https://jsonplaceholder.typicode.com/user/{}/todos".format(
-        argv[1])
-    names = "https://jsonplaceholder.typicode.com/users/{}".format(argv[1])
-    todores = get(source).json()
-    nameres = get(names).json()
-
+    source = f"https://jsonplaceholder.typicode.com/user/{argv[1]}"
+    names = f"https://jsonplaceholder.typicode.com/users/{argv[1]}/todos"
+    uss = requests.get(source)
+    alltod = requests.get(names)
     listall = []
-    for todo in todores:
-        todo_direct = {}
-        todo_direct.update({"task": todo.get("title"), "completed": todo.get(
-            "completed"), "username": name_result.get("username")})
-        listall.append(todo_direct)
 
-    with open("{}.json".format(argv[1]), 'w') as f:
-        dump({argv[1]: listall}, f)
+    for z in todo.json():
+        todo_direct = {'task': f"{z.get('title')}",
+                       'completed': z.get('completed'),
+                       'username': f"{user.json().get('username')}"}
+        listall.append(todo_direc)
+
+    zm = {f"{argv[1]}": listall}
+    with open(f"{argv[1]}.json", 'w') as file:
+        json.dump(zm, file)
