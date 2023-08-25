@@ -1,36 +1,27 @@
 #!/usr/bin/python3
-"""extend the script to export data in the JSON format"""
+"""
+Check student JSON output
+"""
 
 import json
 import requests
-from sys import argv
+import sys
+
+users_url = "https://jsonplaceholder.typicode.com/users?id="
+todos_url = "https://jsonplaceholder.typicode.com/todos"
 
 
-if __name__ == '__main__':
-    source = f"https://jsonplaceholder.typicode.com/user/{argv[1]}"
-    todos_url = f"https://jsonplaceholder.typicode.com/users/{argv[1]}/todos"
-    user_response = requests.get(source)
-    todos_response = requests.get(todos_url)
+def user_info(id):
+    """ Check user info """
 
-    if user_response.status_code != 200 or todos_response.status_code != 200:
-        print("Error: Unable to fetch data from the API.")
-        exit(1)
+    with open(str(id) + '.json', 'r') as f:
+        student_json = json.load(f)
 
-    user_data = user_response.json()
-    todos_data = todos_response.json()
+    if student_json.get(str(id)) and len(student_json) == 1:
+        print("Correct USER_ID: OK")
+    else:
+        print("Correct USER_ID: Incorrect")
 
-    listall = []
 
-    for todo in todos_data:
-        todo_direct = {
-            'task': todo.get('title'),
-            'completed': todo.get('completed'),
-            'username': user_data.get('username')
-        }
-        listall.append(todo_direc)
-
-    zm = {f"{argv[1]}": listall}
-    with open(f"{argv[1]}.json", 'w') as file:
-        json.dump(zm, file, indent=4)
-
-    print(f"Data saved to {argv[1]}.json")
+if __name__ == "__main__":
+    user_info(int(sys.argv[1]))
